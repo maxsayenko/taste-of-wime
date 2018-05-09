@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 
 import AuthView from './screens/AuthView';
+import HomeView from './screens/HomeView';
 // import Tabs from './TabsNavigator';
 
 // Custom transition code
@@ -39,6 +40,9 @@ const TransitionConfiguration = () => {
 const routeConfiguration = {
     auth: {
         screen: AuthView
+    },
+    home: {
+        screen: HomeView
     }
     // tabs: {
     //     screen: Tabs,
