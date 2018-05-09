@@ -5,14 +5,14 @@ import { Asset, Font, AppLoading } from 'expo';
 
 class AuthView extends Component {
     render() {
-        const { isTandCAccepted } = this.props;
-
-        // Make sure we got a chance to fetch this flag.
-        if (isTandCAccepted !== true && isTandCAccepted !== false) {
-            return (
-                <AppLoading />
-            );
-        }
+        // const { isTandCAccepted } = this.props;
+        // 
+        // // Make sure we got a chance to fetch this flag.
+        // if (isTandCAccepted !== true && isTandCAccepted !== false) {
+        //     return (
+        //         <AppLoading />
+        //     );
+        // }
 
         return (
             <View 
@@ -34,6 +34,7 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
+    return state;
 };
 
 export default connect(
