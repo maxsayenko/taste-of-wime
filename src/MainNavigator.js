@@ -52,7 +52,7 @@ const routeConfiguration = {
 const stackNavigatorConfiguration = {
     headerMode: 'none',
     initialRouteName: 'auth',
-    mode: 'card',
+    mode: 'modal',
     cardStyle: {
         paddingTop: Expo.Constants.statusBarHeight,
         backgroundColor: 'white'
