@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Button } from 'react-native';
 
-class HomeView extends Component {
+class GraphView extends Component {
     render() {
         return (
             <View
                 style = {styles.mainContainer}
             >
                 <Text>
-                    This is Home View
+                    This is Graph View
                 </Text>
                 <Button
                     onPress = {() => {
@@ -38,4 +38,4 @@ const mapStateToProps = (state) => {
 export default connect(
     mapStateToProps,
     {}
-)(HomeView);
+)(GraphView);
