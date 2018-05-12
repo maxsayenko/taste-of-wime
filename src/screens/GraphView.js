@@ -1,29 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Button } from 'react-native';
+import { Container } from 'native-base';
+
+import ScreenHeader from './components/screenHeader';
+
+const SCREEN_NAME = 'Graph';
 
 class GraphView extends Component {
     static navigationOptions = () => ({
-        drawerLabel: 'Graph'
+        drawerLabel: SCREEN_NAME
     });
 
     render() {
+        const { navigation } = this.props;
+        const { openDrawer } = navigation;
+        //console.log(navigation.state.params.user);
         return (
-            <View
-                style = {styles.mainContainer}
-            >
-                <Text>
-                    This is Graph View
-                </Text>
-                <Button
-                    onPress = {() => {
-                        //navigation.navigate('home');
-                    }}
-                    title = "Learn More"
-                    color = "#841584"
-                    accessibilityLabel = "Learn more about this purple button"
+            <Container>
+                <ScreenHeader
+                    openDrawer = {openDrawer}
+                    title = {SCREEN_NAME}
                 />
-            </View>
+            </Container>
         );
     }
 }
