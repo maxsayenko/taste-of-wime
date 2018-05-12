@@ -13,8 +13,9 @@ import {
 import firebase from 'firebase';
 
 import ScreenHeader from './components/screenHeader';
+import TeamNameModal from './components/teamNameModal';
 
-import { fetchUserTeams } from '../actions';
+import { fetchUserTeams, searchTeamName } from '../actions';
 
 const SCREEN_NAME = 'Home';
 
@@ -26,7 +27,9 @@ class HomeView extends Component {
     constructor() {
         super();
         this.state = {
-            typedTeamName: ''
+            typedTeamName: '',
+            isTeamModalVisible: false,
+            isSearchedTeamExists: false
         };
     }
 
@@ -36,11 +39,39 @@ class HomeView extends Component {
 
     noTeamView() {
         const updateTeamName = (typedTeamName) => {
-            console.log(typedTeamName);
             this.setState({
                 typedTeamName
             });
         };
+
+        const searchTeamName = () => {
+            const { typedTeamName } = this.state;
+            if (typedTeamName.length > 0) {
+                firebase.database().ref('/teams')
+                    .on('value', snapshot => {
+                        const teams = snapshot.val();
+                        for (const name in teams) {
+                            console.log(name);
+                            if (name === typedTeamName) {
+                                showModal(true);
+                                return;
+                            }
+                        }
+                        showModal(false);
+                    });
+            }
+        };
+
+        const hideModal = () => {
+            this.setState({ isTeamModalVisible: false });
+        }
+
+        const showModal = (isSearchedTeamExists) => {
+            this.setState({
+                isTeamModalVisible: true,
+                isSearchedTeamExists
+            });
+        }
 
         return (
             <Container
@@ -60,13 +91,22 @@ class HomeView extends Component {
                         placeholder = 'Team name'
                         onChangeText = {updateTeamName.bind(this)}
                     />
-                    <Button transparent>
+                    <Button
+                        transparent
+                        onPress = {searchTeamName.bind(this)}
+                    >
                         <Icon
                             type = 'Octicons'
                             name = 'chevron-right'
                         />
                     </Button>
                 </Item>
+                <TeamNameModal
+                    isModalVisible = {this.state.isTeamModalVisible}
+                    teamExists = {this.state.isSearchedTeamExists}
+                    hideModal = {hideModal}
+                    teamName = {this.state.typedTeamName}
+                />
             </Container>
         );
     }
@@ -158,4 +198,4 @@ const mapStateToProps = ({ user }) => {
     return { team };
 };
 
-export default connect(mapStateToProps, { fetchUserTeams })(HomeView);
+export default connect(mapStateToProps, { fetchUserTeams, searchTeamName })(HomeView);
