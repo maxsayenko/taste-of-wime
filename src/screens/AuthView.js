@@ -38,7 +38,7 @@ class AuthView extends Component {
 
         return (
             <Button
-                primary = "primary"
+                primary
                 onPress = {this.LoginUser.bind(this)}
                 style = {{
                     alignSelf: 'center'
@@ -56,7 +56,7 @@ class AuthView extends Component {
             <Content>
                 <Container style = {styles.mainContainer}>
                     <Form style = {styles.form}>
-                        <Item floatingLabel = "floatingLabel">
+                        <Item floatingLabel>
                             <Label>Email</Label>
                             <Input
                                 onChangeText = {this.EmailChanged.bind(this)}
@@ -64,7 +64,7 @@ class AuthView extends Component {
                             />
                         </Item>
                         <Item
-                            floatingLabel = "floatingLabel"
+                            floatingLabel
                             style = {{
                                 marginTop: 10
                             }}
