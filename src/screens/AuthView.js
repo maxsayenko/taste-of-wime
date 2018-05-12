@@ -1,61 +1,81 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Image, Button } from 'react-native';
+import { View, Image } from 'react-native';
 import { Asset, Font, AppLoading } from 'expo';
+import {
+    Container,
+    Content,
+    Text,
+    Form,
+    Item,
+    Label,
+    Input,
+    Button,
+    Segment
+} from 'native-base';
 import firebase from 'firebase';
+
+import { emailChanged, passwordChanged, loginUser } from '../actions';
 
 class AuthView extends Component {
     render() {
         const { navigation } = this.props;
-        // const { isTandCAccepted } = this.props;
-        //
-        // // Make sure we got a chance to fetch this flag.
-        // if (isTandCAccepted !== true && isTandCAccepted !== false) {
-        //     return (
-        //         <AppLoading />
-        //     );
-        // }
 
-        return (
-            <View
-                style = {styles.mainContainer}
-            >
-                <Text>
-                    Login View goes here
-                </Text>
-                <Button
-                    onPress = {() => {
-                        //navigation.navigate('home');
-                        firebase.auth().createUserWithEmailAndPassword('email@email.com', 'password')
-                            .then((user, a, b) => {
-                                console.log(user);
-                                console.log(a, b);
-                            })
-                            .catch((err, a, b) => {
-                                console.log(err, a, b);
-                            });
-                    }}
-                    title = "Learn More"
-                    color = "#841584"
-                    accessibilityLabel = "Learn more about this purple button"
-                />
-            </View>
-        );
+        return (<Container>
+            <Content>
+                <Container style = {styles.mainContainer}>
+                    <Form style = {styles.form}>
+                        <Item floatingLabel = "floatingLabel">
+                            <Label>Email</Label>
+                            <Input />
+                        </Item>
+                        <Item
+                            floatingLabel = "floatingLabel"
+                            style = {{
+                                marginTop: 10
+                            }}
+                        >
+                            <Label>Password</Label>
+                            <Input />
+                        </Item>
+                        <View>
+                            <Button
+                                primary = "primary"
+                                style = {{
+                                    alignSelf: 'center',
+                                    marginTop: 10
+                                }}
+                            >
+                                <Text>
+                                    Sign In/Up
+                                </Text>
+                            </Button>
+                        </View>
+                    </Form>
+                </Container>
+            </Content>
+        </Container>);
     }
 }
 
 const styles = {
     mainContainer: {
+        // justifyContent: 'center',
+        // alignItems: 'center'
         height: '100%',
         display: 'flex'
+    },
+    form: {
+        marginTop: '30%'
+    },
+    repeatPwdInput: {
+        display: '1'
     }
 };
 
-const mapStateToProps = (state) => {
-    return state;
+const mapStateToProps = ({ auth }) => {
+    const { email, password, error, loading } = auth;
+    return { email, password, error, loading };
 };
 
-export default connect(
-    mapStateToProps,
-    {}
-)(AuthView);
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(AuthView);
