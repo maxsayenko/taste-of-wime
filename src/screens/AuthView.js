@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View, Image, Button } from 'react-native';
 import { Asset, Font, AppLoading } from 'expo';
+import firebase from 'firebase';
 
 class AuthView extends Component {
     render() {
@@ -24,7 +25,15 @@ class AuthView extends Component {
                 </Text>
                 <Button
                     onPress = {() => {
-                        navigation.navigate('home');
+                        //navigation.navigate('home');
+                        firebase.auth().createUserWithEmailAndPassword('email@email.com', 'password')
+                            .then((user, a, b) => {
+                                console.log(user);
+                                console.log(a, b);
+                            })
+                            .catch((err, a, b) => {
+                                console.log(err, a, b);
+                            });
                     }}
                     title = "Learn More"
                     color = "#841584"
