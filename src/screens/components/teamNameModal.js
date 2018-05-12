@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
 import {
     Container,
@@ -11,12 +12,25 @@ import {
     Text
 } from 'native-base';
 
+import { userJoinsTeam } from '../../actions';
+
 class TeamNameModal extends Component {
     renderBody(teamExists, teamName) {
         if (teamExists) {
             return (
                 <Container>
                     <Text>Team {teamName} already exists. Would you like to join?</Text>
+                    <Button
+                        primary
+                        onPress = {this.props.userJoinsTeam.bind(this, teamName)}
+                        style = {{
+                            alignSelf: 'center'
+                        }}
+                    >
+                        <Text>
+                            Join the team
+                        </Text>
+                    </Button>
                 </Container>
             );
         }
@@ -62,4 +76,4 @@ const styles = {
     }
 };
 
-export default TeamNameModal;
+export default connect(null, { userJoinsTeam })(TeamNameModal);

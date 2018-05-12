@@ -5,3 +5,5 @@ export const LOGIN_USER_FAIL = 'login_user_fail';
 export const LOGIN_USER = 'login_user';
 
 export const FETCH_USER_TEAMS = 'fetch_user_teams';
+export const USER_JOINS_TEAM = 'user_joins_team';
+export const USER_CREATES_AND_JOINS_TEAM = 'user_creates_and_joins_team';

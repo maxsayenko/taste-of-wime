@@ -8,7 +8,8 @@ import {
     H3,
     Item,
     Input,
-    Icon
+    Icon,
+    Spinner
 } from 'native-base';
 import firebase from 'firebase';
 
@@ -64,14 +65,14 @@ class HomeView extends Component {
 
         const hideModal = () => {
             this.setState({ isTeamModalVisible: false });
-        }
+        };
 
         const showModal = (isSearchedTeamExists) => {
             this.setState({
                 isTeamModalVisible: true,
                 isSearchedTeamExists
             });
-        }
+        };
 
         return (
             <Container
@@ -79,8 +80,12 @@ class HomeView extends Component {
                     margin: 10
                 }}
             >
-                <H3>
-                    Doesn't look you are a part of the team.
+                <H3
+                    style = {{
+                        textAlign: 'center'
+                    }}
+                >
+                    Doesn't look you are a part of any team.
                 </H3>
                 <Item>
                     <Icon
@@ -111,8 +116,19 @@ class HomeView extends Component {
         );
     }
 
+    getTeamView() {
+        const { team } = this.props;
+        if (team === false) {
+            return (<Spinner color = 'blue' />);
+        }
+        if (team === null) {
+            return this.noTeamView();
+        }
+    }
+
     render() {
         const { navigation, team } = this.props;
+        console.log('currTeam', team);
         const { openDrawer } = navigation;
         //console.log(navigation.state.params.user);
         return (
@@ -123,7 +139,7 @@ class HomeView extends Component {
                 />
                 <Content>
                     <Container>
-                        {!team && this.noTeamView()}
+                        {this.getTeamView()}
                     </Container>
                     <Button
                         primary
