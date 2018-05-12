@@ -39,11 +39,10 @@ class AuthView extends Component {
         return (
             <Button
                 primary = "primary"
-                style = {{
-                    alignSelf: 'center',
-                    marginTop: 10
-                }}
                 onPress = {this.LoginUser.bind(this)}
+                style = {{
+                    alignSelf: 'center'
+                }}
             >
                 <Text>
                     Sign In/Up
@@ -76,7 +75,15 @@ class AuthView extends Component {
                                 value = {this.props.password}
                             />
                         </Item>
-                        <View>
+                        <View
+                            style = {{
+                                alignSelf: 'center',
+                                marginTop: 10
+                            }}
+                        >
+                            <Text style = {styles.errorTextStyles}>
+                                {this.props.error}
+                            </Text>
                             {this.renderButton()}
                         </View>
                     </Form>
@@ -98,6 +105,12 @@ const styles = {
     },
     repeatPwdInput: {
         display: '1'
+    },
+    errorTextStyles: {
+        alignSelf: 'center',
+        fontSize: 20,
+        color: 'red',
+        textAlign: 'center'
     }
 };
 
