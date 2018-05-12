@@ -11,23 +11,58 @@ import {
     Label,
     Input,
     Button,
-    Segment
+    Spinner
 } from 'native-base';
 import firebase from 'firebase';
 
 import { emailChanged, passwordChanged, loginUser } from '../actions';
 
 class AuthView extends Component {
-    render() {
-        const { navigation } = this.props;
+    EmailChanged(text) {
+        this.props.emailChanged(text);
+    }
 
+    PasswordChanged(text) {
+        this.props.passwordChanged(text);
+    }
+
+    LoginUser() {
+        const { email, password, navigation } = this.props;
+        this.props.loginUser({ email, password, navigation });
+    }
+
+    renderButton() {
+        if (this.props.loading === true) {
+            return (<Spinner color = 'blue' />);
+        }
+
+        return (
+            <Button
+                primary = "primary"
+                style = {{
+                    alignSelf: 'center',
+                    marginTop: 10
+                }}
+                onPress = {this.LoginUser.bind(this)}
+            >
+                <Text>
+                    Sign In/Up
+                </Text>
+            </Button>
+        );
+    }
+
+    render() {
         return (<Container>
             <Content>
                 <Container style = {styles.mainContainer}>
                     <Form style = {styles.form}>
                         <Item floatingLabel = "floatingLabel">
                             <Label>Email</Label>
-                            <Input />
+                            <Input
+                                onChangeText = {this.EmailChanged.bind(this)}
+                                value = {this.props.email}
+                            />
                         </Item>
                         <Item
                             floatingLabel = "floatingLabel"
@@ -36,20 +71,13 @@ class AuthView extends Component {
                             }}
                         >
                             <Label>Password</Label>
-                            <Input />
+                            <Input
+                                onChangeText = {this.PasswordChanged.bind(this)}
+                                value = {this.props.password}
+                            />
                         </Item>
                         <View>
-                            <Button
-                                primary = "primary"
-                                style = {{
-                                    alignSelf: 'center',
-                                    marginTop: 10
-                                }}
-                            >
-                                <Text>
-                                    Sign In/Up
-                                </Text>
-                            </Button>
+                            {this.renderButton()}
                         </View>
                     </Form>
                 </Container>
