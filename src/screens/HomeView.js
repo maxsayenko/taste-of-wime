@@ -1,26 +1,45 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View, Button } from 'react-native';
+import { Text, View } from 'react-native';
+import {
+    Container,
+    Button,
+    Header,
+    Left,
+    Right,
+    Icon,
+    Body,
+    Title
+} from 'native-base';
 
 class HomeView extends Component {
+    static navigationOptions = () => ({
+        drawerLabel: 'Home'
+    });
+
     render() {
-        return (
-            <View
-                style = {styles.mainContainer}
+        //const { navigation } = this.props;
+        //console.log(navigation.state.params.user);
+        return (<Container>
+            <Header
+                style = {{
+                    marginTop: -Expo.Constants.statusBarHeight
+                }}
             >
-                <Text>
-                    This is Home View
-                </Text>
-                <Button
-                    onPress = {() => {
-                        //navigation.navigate('home');
-                    }}
-                    title = "Learn More"
-                    color = "#841584"
-                    accessibilityLabel = "Learn more about this purple button"
-                />
-            </View>
-        );
+                <Left>
+                    <Button
+                        transparent
+                        onPress = {this.props.navigation.openDrawer.bind(this)}
+                    >
+                        <Icon name = 'menu' />
+                    </Button>
+                </Left>
+                <Body>
+                    <Title>Header</Title>
+                </Body>
+                <Right />
+            </Header>
+        </Container>);
     }
 }
 
@@ -35,7 +54,4 @@ const mapStateToProps = (state) => {
     return state;
 };
 
-export default connect(
-    mapStateToProps,
-    {}
-)(HomeView);
+export default connect(mapStateToProps, {})(HomeView);

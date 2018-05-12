@@ -3,6 +3,10 @@ import { connect } from 'react-redux';
 import { Text, View, Button } from 'react-native';
 
 class GraphView extends Component {
+    static navigationOptions = () => ({
+        drawerLabel: 'Graph'
+    });
+
     render() {
         return (
             <View

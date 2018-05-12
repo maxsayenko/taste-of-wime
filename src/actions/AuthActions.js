@@ -51,5 +51,5 @@ const loginUserSuccess = (dispatch, user, navigation) => {
         type: LOGIN_USER_SUCCESS,
         payload: user
     });
-    navigation.navigate('home');
+    navigation.navigate('home', user);
 };
