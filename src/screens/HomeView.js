@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
-import { Container, Content, Button } from 'native-base';
+import {
+    Container,
+    Content,
+    Button,
+    H3,
+    Item,
+    Input,
+    Icon
+} from 'native-base';
 import firebase from 'firebase';
 
 import ScreenHeader from './components/screenHeader';
@@ -15,12 +23,56 @@ class HomeView extends Component {
         drawerLabel: SCREEN_NAME
     });
 
+    constructor() {
+        super();
+        this.state = {
+            typedTeamName: ''
+        };
+    }
+
     componentWillMount() {
         this.props.fetchUserTeams();
     }
 
+    noTeamView() {
+        const updateTeamName = (typedTeamName) => {
+            console.log(typedTeamName);
+            this.setState({
+                typedTeamName
+            });
+        };
+
+        return (
+            <Container
+                style = {{
+                    margin: 10
+                }}
+            >
+                <H3>
+                    Doesn't look you are a part of the team.
+                </H3>
+                <Item>
+                    <Icon
+                        type = 'Ionicons'
+                        name = 'ios-people'
+                    />
+                    <Input
+                        placeholder = 'Team name'
+                        onChangeText = {updateTeamName.bind(this)}
+                    />
+                    <Button transparent>
+                        <Icon
+                            type = 'Octicons'
+                            name = 'chevron-right'
+                        />
+                    </Button>
+                </Item>
+            </Container>
+        );
+    }
+
     render() {
-        const { navigation } = this.props;
+        const { navigation, team } = this.props;
         const { openDrawer } = navigation;
         //console.log(navigation.state.params.user);
         return (
@@ -30,6 +82,9 @@ class HomeView extends Component {
                     title = {SCREEN_NAME}
                 />
                 <Content>
+                    <Container>
+                        {!team && this.noTeamView()}
+                    </Container>
                     <Button
                         primary
                         onPress = {() => {
@@ -98,8 +153,9 @@ const styles = {
     }
 };
 
-const mapStateToProps = (state) => {
-    return state;
+const mapStateToProps = ({ user }) => {
+    const { team } = user;
+    return { team };
 };
 
 export default connect(mapStateToProps, { fetchUserTeams })(HomeView);
