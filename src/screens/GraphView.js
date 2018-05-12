@@ -15,7 +15,6 @@ class GraphView extends Component {
     render() {
         const { navigation } = this.props;
         const { openDrawer } = navigation;
-        //console.log(navigation.state.params.user);
         return (
             <Container>
                 <ScreenHeader
