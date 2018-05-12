@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Image } from 'react-native';
-import { Asset, Font, AppLoading } from 'expo';
+import { Asset, Font } from 'expo';
 import {
     Container,
     Content,
@@ -13,7 +13,6 @@ import {
     Button,
     Spinner
 } from 'native-base';
-import firebase from 'firebase';
 
 import { emailChanged, passwordChanged, loginUser } from '../actions';
 
