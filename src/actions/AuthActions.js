@@ -32,7 +32,12 @@ export const loginUser = ({ email, password, navigation }) => {
             .catch((err) => {
                 console.log(err);
                 firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then((user) => loginUserSuccess(dispatch, user))
+                    .then((user) => {
+                        const refUsers = firebase.database().ref('/users');
+                        const refUser = refUsers.child(`${user.user.uid}`);
+                        refUser.child('email').set(`${user.user.email}`);
+                        loginUserSuccess(dispatch, user, navigation);
+                    })
                     .catch((err) => loginUserFail(dispatch, err));
             });
     };

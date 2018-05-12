@@ -6,12 +6,18 @@ import firebase from 'firebase';
 
 import ScreenHeader from './components/screenHeader';
 
+import { fetchUserTeams } from '../actions';
+
 const SCREEN_NAME = 'Home';
 
 class HomeView extends Component {
     static navigationOptions = () => ({
         drawerLabel: SCREEN_NAME
     });
+
+    componentWillMount() {
+        this.props.fetchUserTeams();
+    }
 
     render() {
         const { navigation } = this.props;
@@ -32,7 +38,7 @@ class HomeView extends Component {
                             //                 console.log(snapshot.val());
                             //             });
 
-                            let ref = firebase.database().ref('/teams')
+                            const ref = firebase.database().ref('/teams')
                                 .push('Hito1')
                                 .then(() => {
                                     console.log(arguments);
@@ -51,7 +57,7 @@ class HomeView extends Component {
                             //                 console.log(snapshot.val());
                             //             });
 
-                            let ref = firebase.database().ref('/teams');
+                            const ref = firebase.database().ref('/teams');
                                 ref.child('Hito1').child('username').set(1);
                                 // .set('Hito2')
                                 // .then(() => {
@@ -66,10 +72,10 @@ class HomeView extends Component {
                     <Button
                         primary
                         onPress = {() => {
-                            let ref = firebase.database().ref('/teams')
+                            const ref = firebase.database().ref('/teams')
                                         .on('value', snapshot => {
                                             const teams = snapshot.val();
-                                            for (let key in teams) {
+                                            for (const key in teams) {
                                                 console.log(teams[key]);
                                             }
                                         });
@@ -96,4 +102,4 @@ const mapStateToProps = (state) => {
     return state;
 };
 
-export default connect(mapStateToProps, {})(HomeView);
+export default connect(mapStateToProps, { fetchUserTeams })(HomeView);
