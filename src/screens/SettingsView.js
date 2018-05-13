@@ -7,7 +7,9 @@ import {
     H3,
     Text,
     Button,
-    Spinner
+    Icon,
+    Spinner,
+    Thumbnail
 } from 'native-base';
 
 import ScreenHeader from './components/screenHeader';
@@ -65,12 +67,37 @@ class SettingsView extends Component {
         AdMobRewarded.removeAllListeners();
     }
 
-    getButtonText(text) {
+    getUpdateAvatarButton() {
         const { adIsLoading } = this.state;
+
         if (adIsLoading === true) {
-            return (<Spinner color = 'gray' />);
+            return (
+                <Button
+                    disabled
+                    style = {{ ...styles.updateAvatarButton, minWidth: 100, alignSelf: 'center' }}
+                >
+                    <Spinner
+                        color = 'gray'
+                        style = {{
+                            marginLeft: 30
+                        }}
+                    />
+                </Button>
+            );
         }
-        return (<Text>{text}</Text>);
+        return (
+            <Button
+                iconLeft
+                style = {styles.updateAvatarButton}
+                onPress = {this.showRewardedToUpdateAvatar.bind(this)}
+            >
+                <Icon
+                    type = 'Entypo'
+                    name = 'video'
+                />
+                <Text>Update</Text>
+            </Button>
+        );
     }
 
     avatarVideoClosed() {
@@ -99,14 +126,15 @@ class SettingsView extends Component {
         });
     }
 
-    bannerError() {
-        console.log('An error');
-        return;
-    }
+    // bannerError() {
+    //     console.log('An error');
+    //     return;
+    // }
 
     render() {
-        const { navigation, avatarType, updateUserAvatar } = this.props;
+        const { navigation, email, team, avatarType } = this.props;
         const { openDrawer } = navigation;
+        const { adIsLoading } = this.state;
         return (
             <Container
                 style = {{
@@ -118,24 +146,59 @@ class SettingsView extends Component {
                     title = {SCREEN_NAME}
                 />
                 <Container>
-                    <Text>Some content</Text>
-                    <Button
-                        primary
-                        onPress = {updateUserAvatar.bind(this, avatarType, navigation)}
-                        style = {{
-                            alignSelf: 'center'
-                        }}
+                    <View
+                        style = {styles.rowView}
                     >
-                        <Text>
-                            Get different avatar style
+                        <H3
+                            style = {styles.label}
+                        >
+                            Email:
+                        </H3>
+                        <H3
+                            style = {styles.value}
+                        >
+                            {email}
+                        </H3>
+                    </View>
+                    <View
+                        style = {styles.rowView}
+                    >
+                        <H3
+                            style = {styles.label}
+                        >
+                            Team:
+                        </H3>
+                        <H3
+                            style = {styles.value}
+                        >
+                            {team}
+                        </H3>
+                    </View>
+                    <View
+                        style = {styles.rowView}
+                    >
+                        <H3
+                            style = {styles.label}
+                        >
+                            Avatar:
+                        </H3>
+                        <Thumbnail
+                            style = {{ ...styles.value, top: -20 }}
+                            source = {{ uri: `https://robohash.org/${email}?set=${avatarType}` }}
+                        />
+                    </View>
+                    <View
+                        style = {styles.rowView}
+                    >
+                        <Text
+                            style = {{
+                                width: '50%'
+                            }}
+                        >
+                            You can update style of your avatar by watching a quick video:
                         </Text>
-                    </Button>
-                    <Button
-                        disabled = {this.state.adIsLoading}
-                        onPress = {this.showRewardedToUpdateAvatar.bind(this)}
-                    >
-                        {this.getButtonText('Update')}
-                    </Button>
+                        {this.getUpdateAvatarButton()}
+                    </View>
                 </Container>
             </Container>
         );
@@ -153,6 +216,21 @@ class SettingsView extends Component {
 // />
 
 const styles = {
+    rowView: {
+        flexDirection: 'row',
+        margin: 10
+    },
+    label: {
+
+    },
+    updateAvatarButton: {
+        position: 'absolute',
+        right: 0
+    },
+    value: {
+        position: 'absolute',
+        right: 0
+    },
     mainContainer: {
         height: '100%',
         display: 'flex'
@@ -160,8 +238,9 @@ const styles = {
 };
 
 const mapStateToProps = ({ user, auth }) => {
-    const { avatarType } = auth;
-    return { avatarType };
+    const { avatarType, email } = auth;
+    const { team } = user;
+    return { avatarType, team, email };
 };
 
 export default connect(
