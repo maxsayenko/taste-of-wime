@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { PickerIOS, View } from 'react-native';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -7,6 +7,7 @@ import {
     Button,
     H3,
     H2,
+    H1,
     Item,
     Input,
     Icon,
@@ -20,6 +21,8 @@ import TeamNameModal from './components/teamNameModal';
 
 import { fetchUserTeams, searchTeamName } from '../actions';
 
+const PickerItemIOS = PickerIOS.Item;
+
 const SCREEN_NAME = 'Home';
 
 class HomeView extends Component {
@@ -32,7 +35,8 @@ class HomeView extends Component {
         this.state = {
             typedTeamName: '',
             isTeamModalVisible: false,
-            isSearchedTeamExists: false
+            isSearchedTeamExists: false,
+            selectedDay: 0
         };
     }
 
@@ -139,6 +143,54 @@ class HomeView extends Component {
         );
     }
 
+    getTimeEnterView() {
+        return (
+                <View>
+                    <H3
+                        style = {{
+                            alignSelf: 'center'
+                        }}
+                    >
+                        How much Wime have you Tasted
+                    </H3>
+                    <PickerIOS
+                        selectedValue = {this.state.selectedDay}
+                        onValueChange = {(dayId) => {
+                            this.setState({
+                                selectedDay: dayId
+                            });
+                        }}
+                        style = {styles.fishPickerStyles}
+                        itemStyle = {styles.fishPickerItemStyles}
+                    >
+                        <PickerItemIOS
+                            key = {0}
+                            value = {0}
+                            label = {'Today'}
+                        />
+                        <PickerItemIOS
+                            key = {1}
+                            value = {1}
+                            label = {'Yesterday'}
+                        />
+                        <PickerItemIOS
+                            key = {2}
+                            value = {2}
+                            label = {'2 days ago'}
+                        />
+                    </PickerIOS>
+                    <H1
+                        style = {{
+                            alignSelf: 'center',
+                            top: -30
+                        }}
+                    >
+                        ?
+                    </H1>
+                </View>
+        );
+    }
+
     render() {
         const { navigation } = this.props;
         const { openDrawer } = navigation;
@@ -149,12 +201,8 @@ class HomeView extends Component {
                     title = {SCREEN_NAME}
                 />
                 <Content>
-                    <View>
-                        {this.getTeamView()}
-                    </View>
-                    <View>
-                        <Text>Some text</Text>
-                    </View>
+                    {this.getTeamView()}
+                    {this.getTimeEnterView()}
                 </Content>
             </Container>
         );
@@ -168,6 +216,15 @@ const styles = {
     },
     teamView: {
         margin: 10
+    },
+    fishPickerStyles: {
+        top: -30
+    },
+    fishPickerItemStyles: {
+        fontWeight: 'bold',
+        color: 'blue',
+        fontSize: 24,
+        height: 105
     }
 };
 
