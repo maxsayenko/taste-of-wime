@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Text, View } from 'react-native';
 import {
     Container,
     Content,
     Button,
     H3,
+    H2,
     Item,
     Input,
     Icon,
-    Spinner
+    Spinner,
+    Text
 } from 'native-base';
 import firebase from 'firebase';
 
@@ -36,6 +37,17 @@ class HomeView extends Component {
 
     componentWillMount() {
         this.props.fetchUserTeams();
+    }
+
+    getTeamView() {
+        const { team } = this.props;
+        if (team === false) {
+            return (<Spinner color = 'blue' />);
+        }
+        if (team === null) {
+            return this.noTeamView();
+        }
+        return this.withTeamView();
     }
 
     noTeamView() {
@@ -116,14 +128,17 @@ class HomeView extends Component {
         );
     }
 
-    getTeamView() {
+    withTeamView() {
         const { team } = this.props;
-        if (team === false) {
-            return (<Spinner color = 'blue' />);
-        }
-        if (team === null) {
-            return this.noTeamView();
-        }
+        return (
+            <Container
+                style = {{
+                    margin: 10
+                }}
+            >
+                <H3>You are a part of team: <H2>{team}</H2></H3>
+            </Container>
+        );
     }
 
     render() {
