@@ -238,9 +238,9 @@ const styles = {
 };
 
 const mapStateToProps = ({ user, auth }) => {
-    const { avatarType, email } = auth;
+    const { avatarType } = auth;
     const { team } = user;
-    return { avatarType, team, email };
+    return { avatarType, team, email: auth.user.user.email };
 };
 
 export default connect(
