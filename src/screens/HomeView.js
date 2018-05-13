@@ -260,7 +260,8 @@ const styles = {
         textAlign: 'center'
     },
     teamView: {
-        margin: 10
+        margin: 10,
+        alignItems: 'center'
     },
     fishPickerStyles: {
         top: -30
