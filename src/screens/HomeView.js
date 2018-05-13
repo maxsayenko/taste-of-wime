@@ -21,7 +21,7 @@ import TeamNameModal from './components/teamNameModal';
 import HoursSlider from './components/hoursSlider';
 import MinutesSlider from './components/minutesSlider';
 
-import { fetchUserTeams, searchTeamName } from '../actions';
+import { fetchUserTeams, searchTeamName, userAddsTime } from '../actions';
 
 const PickerItemIOS = PickerIOS.Item;
 
@@ -104,7 +104,7 @@ class HomeView extends Component {
                         textAlign: 'center'
                     }}
                 >
-                    Doesn't look you are a part of any team.
+                    Doesn't look you are a part of any team
                 </H3>
                 <Item>
                     <Icon
@@ -149,7 +149,11 @@ class HomeView extends Component {
     getTimeEnterView() {
         console.log('crash');
         return (
-                <View>
+                <View
+                    style = {{
+                        marginTop: 10
+                    }}
+                >
                     <H3
                         style = {{
                             alignSelf: 'center'
@@ -209,6 +213,7 @@ class HomeView extends Component {
         console.log('MAIN RENDER');
         const { navigation } = this.props;
         const { openDrawer } = navigation;
+        const { selectedDay, sliderHoursValue, sliderMinutesValue } = this.state;
         return (
             <Container>
                 <ScreenHeader
@@ -220,7 +225,7 @@ class HomeView extends Component {
                     {this.getTimeEnterView()}
                     <Button
                         primary
-
+                        onPress = {this.props.userAddsTime.bind(this, selectedDay, sliderHoursValue, sliderMinutesValue, navigation)}
                         style = {{
                             alignSelf: 'center'
                         }}
@@ -259,4 +264,4 @@ const mapStateToProps = ({ user }) => {
     return { team };
 };
 
-export default connect(mapStateToProps, { fetchUserTeams, searchTeamName })(HomeView);
+export default connect(mapStateToProps, { fetchUserTeams, searchTeamName, userAddsTime })(HomeView);

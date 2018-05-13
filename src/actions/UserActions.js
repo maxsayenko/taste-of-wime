@@ -48,18 +48,30 @@ export const userCreatsAndJoinsTeam = (teamName) => {
     };
 };
 
-export const userAddsTime = (date, hours) => {
+export const userAddsTime = (selectedDay, sliderHoursValue, sliderMinutesValue, navigation) => {
+    console.log(navigation);
     const { currentUser } = firebase.auth();
     return (dispatch) => {
-        const refTeams = firebase.database().ref('/times');
-        refTeams.child(currentUser.uid).child(currentUser.uid).child('email').set(currentUser.email);
+        const minsAmount = sliderMinutesValue > 0 ? 1 / (60 / sliderMinutesValue) : 0;
+        const hoursAmount = sliderHoursValue + minsAmount;
+        const date = new Date().add(-selectedDay).days();
+        const dateStr = date.toString('MM-dd-yyyy');
 
-        const refUser = firebase.database().ref(`/users/${currentUser.uid}`);
-        refUser.child('team').set(teamName);
+        let timeAtThatDate = 0;
+        const refUserTimeAtThatDate = firebase.database().ref(`/times/${currentUser.uid}`);
+        const onTimeChange = refUserTimeAtThatDate.child(dateStr)
+            .on('value', snapshot => {
+                timeAtThatDate = snapshot.val() || 0;
+            });
+        refUserTimeAtThatDate.off('value', onTimeChange);
+
+        const newTime = timeAtThatDate + hoursAmount;
+        refUserTimeAtThatDate.child(dateStr).set(newTime);
 
         dispatch({
-            type: USER_CREATES_AND_JOINS_TEAM,
-            payload: teamName
+            type: USER_ADDS_TIME
         });
+
+        navigation.navigate('graph');
     };
 };

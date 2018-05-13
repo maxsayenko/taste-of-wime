@@ -39,6 +39,7 @@ export const loginUser = ({ email, password, navigation }) => {
                         const refUsers = firebase.database().ref('/users');
                         let refUser = refUsers.child(`${user.user.uid}`);
                         refUser.child('email').set(`${user.user.email}`);
+                        refUser.child('avatarType').set('set4');
 
                         const todayDate = new Date().toString('MM-dd-yyyy');
                         const refTimes = firebase.database().ref('/times');
