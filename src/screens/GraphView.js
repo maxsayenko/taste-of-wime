@@ -3,14 +3,7 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import {
     Container,
-    Content,
-    Button,
     H3,
-    H2,
-    H1,
-    Item,
-    Input,
-    Icon,
     Spinner,
     Text
 } from 'native-base';
@@ -48,7 +41,6 @@ class GraphView extends Component {
             }
             meetingsTimeArr.unshift({ date, color, hours: meetingsTime[date] });
         }
-        console.log(meetingsTimeArr);
         return (
             <View
                 style = {{
