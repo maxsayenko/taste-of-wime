@@ -18,6 +18,7 @@ import firebase from 'firebase';
 
 import ScreenHeader from './components/screenHeader';
 import TeamNameModal from './components/teamNameModal';
+import HoursSlider from './components/hoursSlider';
 
 import { fetchUserTeams, searchTeamName } from '../actions';
 
@@ -36,7 +37,8 @@ class HomeView extends Component {
             typedTeamName: '',
             isTeamModalVisible: false,
             isSearchedTeamExists: false,
-            selectedDay: 0
+            selectedDay: 0,
+            sliderHoursValue: 0
         };
     }
 
@@ -144,6 +146,7 @@ class HomeView extends Component {
     }
 
     getTimeEnterView() {
+        console.log('crash');
         return (
                 <View>
                     <H3
@@ -187,11 +190,17 @@ class HomeView extends Component {
                     >
                         ?
                     </H1>
+                    <HoursSlider
+                        onSlidingComplete = {(sliderHoursValue) => {
+                            this.setState({ sliderHoursValue });
+                        }}
+                    />
                 </View>
         );
     }
 
     render() {
+        console.log('MAIN RENDER');
         const { navigation } = this.props;
         const { openDrawer } = navigation;
         return (
