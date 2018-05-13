@@ -15,6 +15,7 @@ import {
 } from 'native-base';
 
 import AuthTermsAndConditionsModal from './components/AuthTermsAndConditionsModal';
+import backgroundImage from './../../assets/images/authPic.jpg';
 
 import { emailChanged, passwordChanged, loginUser, deleteTandC, fetchTandC, TandCAccepted } from '../actions';
 
@@ -67,6 +68,11 @@ class AuthView extends Component {
 
         return (<Container>
             <Container style = {styles.mainContainer}>
+                <Image
+                    style = {styles.backgroundImage}
+                    resizeMode = 'contain'
+                    source = {backgroundImage}
+                />
                 <Form style = {styles.form}>
                     <Item floatingLabel>
                         <Label>Email</Label>
@@ -126,7 +132,16 @@ const styles = {
         fontSize: 20,
         color: 'red',
         textAlign: 'center'
-    }
+    },
+    backgroundImage: {
+        flex: 1,
+        // remove width and height to override fixed static size
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'white',
+        opacity: 0.1,
+        position: 'absolute'
+    },
 };
 
 const mapStateToProps = ({ auth, user }) => {
