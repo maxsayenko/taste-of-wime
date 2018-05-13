@@ -30,7 +30,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGIN_USER_FAIL:
             return { ...state, error: action.payload, password: '', loading: false };
         case UPDATE_USER_AVATAR:
-            return { ...state, ...INITIAL_STATE, avatarType: action.payload };
+            return { ...state, avatarType: action.payload };
         default:
             return state;
     }
