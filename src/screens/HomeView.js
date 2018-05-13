@@ -74,7 +74,6 @@ class HomeView extends Component {
                     .on('value', snapshot => {
                         const teams = snapshot.val();
                         for (const name in teams) {
-                            console.log(name);
                             if (name === typedTeamName) {
                                 showModal(true);
                                 return;
@@ -197,7 +196,7 @@ class HomeView extends Component {
                             this.setState({ sliderHoursValue });
                         }}
                     />
-                <MinutesSlider
+                    <MinutesSlider
                         onSlidingComplete = {(sliderMinutesValue) => {
                             this.setState({ sliderMinutesValue });
                         }}
@@ -219,6 +218,17 @@ class HomeView extends Component {
                 <Content>
                     {this.getTeamView()}
                     {this.getTimeEnterView()}
+                    <Button
+                        primary
+
+                        style = {{
+                            alignSelf: 'center'
+                        }}
+                    >
+                        <Text>
+                            Add time to selected day
+                        </Text>
+                    </Button>
                 </Content>
             </Container>
         );

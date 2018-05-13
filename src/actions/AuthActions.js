@@ -1,4 +1,7 @@
 import firebase from 'firebase';
+// To extend Date object with useful functions
+import datejs from 'datejs';
+
 import {
     EMAIL_CHANGED,
     PASSWORD_CHANGED,
@@ -34,8 +37,14 @@ export const loginUser = ({ email, password, navigation }) => {
                 firebase.auth().createUserWithEmailAndPassword(email, password)
                     .then((user) => {
                         const refUsers = firebase.database().ref('/users');
-                        const refUser = refUsers.child(`${user.user.uid}`);
+                        let refUser = refUsers.child(`${user.user.uid}`);
                         refUser.child('email').set(`${user.user.email}`);
+
+                        const todayDate = new Date().toString('MM-dd-yyyy');
+                        const refTimes = firebase.database().ref('/times');
+                        refUser = refTimes.child(`${user.user.uid}`);
+                        refUser.child(todayDate).set(0);
+
                         loginUserSuccess(dispatch, user, navigation);
                     })
                     .catch((err) => loginUserFail(dispatch, err));
