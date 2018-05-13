@@ -6,7 +6,6 @@ import {
     Content,
     Button,
     H3,
-    H2,
     H1,
     Item,
     Input,
@@ -40,7 +39,8 @@ class HomeView extends Component {
             isSearchedTeamExists: false,
             selectedDay: 0,
             sliderHoursValue: 0,
-            sliderMinutesValue: 0
+            sliderMinutesValue: 0,
+            teamNameError: ''
         };
     }
 
@@ -62,26 +62,33 @@ class HomeView extends Component {
     noTeamView() {
         const updateTeamName = (typedTeamName) => {
             this.setState({
-                typedTeamName
+                typedTeamName,
+                teamNameError: ''
             });
         };
 
         const searchTeamName = () => {
             let { typedTeamName } = this.state;
             typedTeamName = typedTeamName.trim();
-            if (typedTeamName.length > 0) {
-                firebase.database().ref('/teams')
-                    .on('value', snapshot => {
-                        const teams = snapshot.val();
-                        for (const name in teams) {
-                            if (name === typedTeamName) {
-                                showModal(true);
-                                return;
-                            }
-                        }
-                        showModal(false);
-                    });
+            const validationRegex = /^[a-z0-9]+$/gi;
+            if (!typedTeamName.match(validationRegex)) {
+                this.setState({
+                    teamNameError: 'Team name should contain only letters and numbers!'
+                });
+                return;
             }
+            // DB call
+            firebase.database().ref('/teams')
+                .on('value', snapshot => {
+                    const teams = snapshot.val();
+                    for (const name in teams) {
+                        if (name === typedTeamName) {
+                            showModal(true);
+                            return;
+                        }
+                    }
+                    showModal(false);
+                });
         };
 
         const hideModal = () => {
@@ -125,6 +132,9 @@ class HomeView extends Component {
                         />
                     </Button>
                 </Item>
+                <Text style = {styles.errorTextStyles}>
+                    {this.state.teamNameError}
+                </Text>
                 <TeamNameModal
                     isModalVisible = {this.state.isTeamModalVisible}
                     teamExists = {this.state.isSearchedTeamExists}
@@ -244,6 +254,12 @@ const styles = {
     mainContainer: {
         height: '100%',
         display: 'flex'
+    },
+    errorTextStyles: {
+        alignSelf: 'center',
+        fontSize: 20,
+        color: 'red',
+        textAlign: 'center'
     },
     teamView: {
         margin: 10
