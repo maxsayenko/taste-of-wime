@@ -32,3 +32,17 @@ export const userJoinsTeam = (teamName) => {
         });
     };
 };
+
+export const userCreatsAndJoinsTeam = (teamName) => {
+    const { currentUser } = firebase.auth();
+    return (dispatch) => {
+        const refTeams = firebase.database().ref('/teams');
+        refTeams.child(teamName).child(currentUser.uid).child('email').set(currentUser.email);
+        const refUser = firebase.database().ref(`/users/${currentUser.uid}`);
+        refUser.child('team').set(teamName);
+        dispatch({
+            type: USER_CREATES_AND_JOINS_TEAM,
+            payload: teamName
+        });
+    };
+};

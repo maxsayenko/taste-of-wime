@@ -59,7 +59,8 @@ class HomeView extends Component {
         };
 
         const searchTeamName = () => {
-            const { typedTeamName } = this.state;
+            let { typedTeamName } = this.state;
+            typedTeamName = typedTeamName.trim();
             if (typedTeamName.length > 0) {
                 firebase.database().ref('/teams')
                     .on('value', snapshot => {
@@ -121,7 +122,7 @@ class HomeView extends Component {
                     isModalVisible = {this.state.isTeamModalVisible}
                     teamExists = {this.state.isSearchedTeamExists}
                     hideModal = {hideModal}
-                    teamName = {this.state.typedTeamName}
+                    teamName = {this.state.typedTeamName.trim()}
                 />
             </View>
         );

@@ -3,29 +3,23 @@ import { connect } from 'react-redux';
 import Modal from 'react-native-modal';
 import {
     Container,
-    Content,
     Button,
     H3,
-    Item,
-    Input,
-    Icon,
     Text
 } from 'native-base';
 
-import { userJoinsTeam } from '../../actions';
+import { userJoinsTeam, userCreatsAndJoinsTeam } from '../../actions';
 
 class TeamNameModal extends Component {
     renderBody(teamExists, teamName) {
         if (teamExists) {
             return (
                 <Container>
-                    <Text>Team {teamName} already exists. Would you like to join?</Text>
+                    <Text>Team <H3>{teamName}</H3> already exists. Would you like to join?</Text>
                     <Button
                         primary
                         onPress = {this.props.userJoinsTeam.bind(this, teamName)}
-                        style = {{
-                            alignSelf: 'center'
-                        }}
+                        style = {styles.button}
                     >
                         <Text>
                             Join the team
@@ -37,7 +31,16 @@ class TeamNameModal extends Component {
 
         return (
             <Container>
-                <Text>Team {teamName} doesn't exist. Would you like to creat it and join?</Text>
+                <Text>Team <H3>{teamName}</H3> doesn't exist. Would you like to creat it and join?</Text>
+                <Button
+                    primary
+                    onPress = {this.props.userCreatsAndJoinsTeam.bind(this, teamName)}
+                    style = {styles.button}
+                >
+                    <Text>
+                        Create and Join
+                    </Text>
+                </Button>
             </Container>
         );
     }
@@ -64,8 +67,9 @@ class TeamNameModal extends Component {
 const styles = {
     modal: {
         alignSelf: 'center',
+        alignItems: 'flex-end',
         width: '100%',
-        maxHeight: '40%',
+        maxHeight: '25%',
         maxWidth: 400,
         backgroundColor: 'white',
         borderRadius: 10,
@@ -73,7 +77,13 @@ const styles = {
         paddingLeft: 15,
         paddingRight: 15,
         paddingBottom: 5
+    },
+    button: {
+        alignSelf: 'center',
+        margin: 10,
+        position: 'absolute',
+        bottom: 0
     }
 };
 
-export default connect(null, { userJoinsTeam })(TeamNameModal);
+export default connect(null, { userJoinsTeam, userCreatsAndJoinsTeam })(TeamNameModal);
