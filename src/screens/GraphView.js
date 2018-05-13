@@ -103,11 +103,8 @@ class GraphView extends Component {
                 />
                 <LottieButton
                     loop
-                    animationRange = {[100, 132]}
                     animationJson = {glassesAnimation}
-                    startProgressFrame = {0.4}
                     playOnLoadAfter = {100}
-                    speed = {0.3}
                     style = {styles.animationIconStyle}
                     animationStyle = {styles.animationLottieStyle}
                 />

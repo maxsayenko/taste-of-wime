@@ -12,7 +12,10 @@ import {
     Thumbnail
 } from 'native-base';
 
+import LottieButton from './common/LottieButton';
 import ScreenHeader from './components/screenHeader';
+
+import { settingsAnimation } from './../../assets/animations';
 import { AdMobConfig } from '../../config';
 
 import { updateUserAvatar } from '../actions';
@@ -206,6 +209,13 @@ class SettingsView extends Component {
                     <Text style = {styles.errorTextStyles}>
                         {errorMessage}
                     </Text>
+                    <LottieButton
+                        loop
+                        animationJson = {settingsAnimation}
+                        playOnLoadAfter = {100}
+                        style = {styles.animationIconStyle}
+                        animationStyle = {styles.animationLottieStyle}
+                    />
                 </Container>
             </Container>
         );
@@ -247,6 +257,18 @@ const styles = {
         fontSize: 20,
         color: 'red',
         textAlign: 'center'
+    },
+    animationIconStyle: {
+        flex: 1,
+        // remove width and height to override fixed static size
+        width: null,
+        height: null
+    },
+    animationLottieStyle: {
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%'
     }
 };
 
