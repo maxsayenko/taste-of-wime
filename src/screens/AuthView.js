@@ -52,42 +52,40 @@ class AuthView extends Component {
 
     render() {
         return (<Container>
-            <Content>
-                <Container style = {styles.mainContainer}>
-                    <Form style = {styles.form}>
-                        <Item floatingLabel>
-                            <Label>Email</Label>
-                            <Input
-                                onChangeText = {this.EmailChanged.bind(this)}
-                                value = {this.props.email}
-                            />
-                        </Item>
-                        <Item
-                            floatingLabel
-                            style = {{
-                                marginTop: 10
-                            }}
-                        >
-                            <Label>Password</Label>
-                            <Input
-                                onChangeText = {this.PasswordChanged.bind(this)}
-                                value = {this.props.password}
-                            />
-                        </Item>
-                        <View
-                            style = {{
-                                alignSelf: 'center',
-                                marginTop: 10
-                            }}
-                        >
-                            <Text style = {styles.errorTextStyles}>
-                                {this.props.error}
-                            </Text>
-                            {this.renderButton()}
-                        </View>
-                    </Form>
-                </Container>
-            </Content>
+            <Container style = {styles.mainContainer}>
+                <Form style = {styles.form}>
+                    <Item floatingLabel>
+                        <Label>Email</Label>
+                        <Input
+                            onChangeText = {this.EmailChanged.bind(this)}
+                            value = {this.props.email}
+                        />
+                    </Item>
+                    <Item
+                        floatingLabel
+                        style = {{
+                            marginTop: 10
+                        }}
+                    >
+                        <Label>Password</Label>
+                        <Input
+                            onChangeText = {this.PasswordChanged.bind(this)}
+                            value = {this.props.password}
+                        />
+                    </Item>
+                    <View
+                        style = {{
+                            alignSelf: 'center',
+                            marginTop: 10
+                        }}
+                    >
+                        <Text style = {styles.errorTextStyles}>
+                            {this.props.error}
+                        </Text>
+                        {this.renderButton()}
+                    </View>
+                </Form>
+            </Container>
         </Container>);
     }
 }
