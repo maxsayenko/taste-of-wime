@@ -9,8 +9,10 @@ import {
 } from 'native-base';
 // To extend Date object with useful functions
 import datejs from 'datejs';
+import LottieButton from './common/LottieButton';
 
 import ScreenHeader from './components/screenHeader';
+import { glassesAnimation } from './../../assets/animations';
 
 import { fetchUserTimes } from '../actions';
 
@@ -43,9 +45,7 @@ class GraphView extends Component {
         }
         return (
             <View
-                style = {{
-                    margin: 20
-                }}
+                style = {styles.listStyle}
             >
                 {
                     meetingsTimeArr.map((item) => {
@@ -101,6 +101,16 @@ class GraphView extends Component {
                     openDrawer = {openDrawer}
                     title = {SCREEN_NAME}
                 />
+                <LottieButton
+                    loop
+                    animationRange = {[100, 132]}
+                    animationJson = {glassesAnimation}
+                    startProgressFrame = {0.4}
+                    playOnLoadAfter = {100}
+                    speed = {0.3}
+                    style = {styles.animationIconStyle}
+                    animationStyle = {styles.animationLottieStyle}
+                />
                 {this.getMeetingsTimeList()}
             </Container>
         );
@@ -111,6 +121,25 @@ const styles = {
     mainContainer: {
         height: '100%',
         display: 'flex'
+    },
+    listStyle: {
+        margin: 20,
+        position: 'absolute',
+        top: 45
+    },
+    animationIconStyle: {
+        flex: 1,
+        // remove width and height to override fixed static size
+        width: null,
+        height: null,
+        backgroundColor: 'white',
+        opacity: 0.5
+    },
+    animationLottieStyle: {
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%'
     }
 };
 
