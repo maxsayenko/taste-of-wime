@@ -19,6 +19,7 @@ import firebase from 'firebase';
 import ScreenHeader from './components/screenHeader';
 import TeamNameModal from './components/teamNameModal';
 import HoursSlider from './components/hoursSlider';
+import MinutesSlider from './components/minutesSlider';
 
 import { fetchUserTeams, searchTeamName } from '../actions';
 
@@ -38,7 +39,8 @@ class HomeView extends Component {
             isTeamModalVisible: false,
             isSearchedTeamExists: false,
             selectedDay: 0,
-            sliderHoursValue: 0
+            sliderHoursValue: 0,
+            sliderMinutesValue: 0
         };
     }
 
@@ -193,6 +195,11 @@ class HomeView extends Component {
                     <HoursSlider
                         onSlidingComplete = {(sliderHoursValue) => {
                             this.setState({ sliderHoursValue });
+                        }}
+                    />
+                <MinutesSlider
+                        onSlidingComplete = {(sliderMinutesValue) => {
+                            this.setState({ sliderMinutesValue });
                         }}
                     />
                 </View>
