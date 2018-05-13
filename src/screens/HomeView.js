@@ -157,7 +157,6 @@ class HomeView extends Component {
     }
 
     getTimeEnterView() {
-        console.log('crash');
         return (
                 <View
                     style = {{
@@ -220,7 +219,6 @@ class HomeView extends Component {
     }
 
     render() {
-        console.log('MAIN RENDER');
         const { navigation } = this.props;
         const { openDrawer } = navigation;
         const { selectedDay, sliderHoursValue, sliderMinutesValue } = this.state;

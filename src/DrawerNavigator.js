@@ -8,9 +8,18 @@ import HomeView from './screens/HomeView';
 import GraphView from './screens/GraphView';
 
 const CustomDrawerContentComponent = (props) => {
+    console.log(props);
     let email = '';
+    let avatarType = 'set4';
+
     try {
-        email = props.items[0].params.user.email;
+        avatarType = props.items[0].params.avatarType;
+    } catch (err) {
+        console.log('Error retriving user avatar type');
+    }
+
+    try {
+        email = props.items[0].params.user.user.email;
     } catch (err) {
         console.log('Error retriving user email');
     }
@@ -21,7 +30,7 @@ const CustomDrawerContentComponent = (props) => {
                     <Body>
                         {email && <Image
                             style = {styles.drawerImage}
-                            source = {{ uri: `https://robohash.org/${email}?set=set4` }}
+                            source = {{ uri: `https://robohash.org/${email}?set=${avatarType}` }}
                         />}
                     </Body>
                 </Header>

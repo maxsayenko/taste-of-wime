@@ -31,7 +31,13 @@ export const loginUser = ({ email, password, navigation }) => {
         });
 
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then((user) => loginUserSuccess(dispatch, user, navigation))
+            .then((user) => {
+                const refUserInfo = firebase.database().ref(`/users/${user.user.uid}`);
+                refUserInfo.on('value', snapshot => {
+                    console.log(snapshot.val());
+                });
+                loginUserSuccess(dispatch, user, navigation);
+            })
             .catch((err) => {
                 console.log(err);
                 firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -66,5 +72,5 @@ const loginUserSuccess = (dispatch, user, navigation) => {
         type: LOGIN_USER_SUCCESS,
         payload: user
     });
-    navigation.navigate('home', user);
+    navigation.navigate('home', { user, avatarType: 'set4' });
 };

@@ -14,7 +14,7 @@ import ScreenHeader from './components/screenHeader';
 
 import { fetchUserTimes } from '../actions';
 
-const SCREEN_NAME = 'Graph';
+const SCREEN_NAME = 'Report';
 
 class GraphView extends Component {
     static navigationOptions = () => ({
