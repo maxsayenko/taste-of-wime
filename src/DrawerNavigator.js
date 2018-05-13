@@ -9,7 +9,6 @@ import GraphView from './screens/GraphView';
 import SettingsView from './screens/SettingsView';
 
 const CustomDrawerContentComponent = (props) => {
-    console.log(props);
     let email = '';
     let avatarType = 'set4';
 
