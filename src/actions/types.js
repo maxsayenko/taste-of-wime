@@ -11,3 +11,5 @@ export const USER_CREATES_AND_JOINS_TEAM = 'user_creates_and_joins_team';
 export const USER_ADDS_TIME = 'user_adds_time';
 
 export const FETCH_USER_TIMES = 'fetch_user_times';
+
+export const UPDATE_USER_AVATAR = 'update_user_avatar';

@@ -7,7 +7,8 @@ import {
     PASSWORD_CHANGED,
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAIL,
-    LOGIN_USER
+    LOGIN_USER,
+    UPDATE_USER_AVATAR
 } from './types';
 
 export const emailChanged = (text) => {
@@ -34,25 +35,27 @@ export const loginUser = ({ email, password, navigation }) => {
             .then((user) => {
                 const refUserInfo = firebase.database().ref(`/users/${user.user.uid}`);
                 refUserInfo.on('value', snapshot => {
-                    console.log(snapshot.val());
+                    const userConfig = snapshot.val();
+
+                    loginUserSuccess(dispatch, user, userConfig.avatarType, navigation);
                 });
-                loginUserSuccess(dispatch, user, navigation);
             })
             .catch((err) => {
                 console.log(err);
                 firebase.auth().createUserWithEmailAndPassword(email, password)
                     .then((user) => {
+                        const defaultAvatarType = 'set4';
                         const refUsers = firebase.database().ref('/users');
                         let refUser = refUsers.child(`${user.user.uid}`);
                         refUser.child('email').set(`${user.user.email}`);
-                        refUser.child('avatarType').set('set4');
+                        refUser.child('avatarType').set(defaultAvatarType);
 
                         const todayDate = new Date().toString('MM-dd-yyyy');
                         const refTimes = firebase.database().ref('/times');
                         refUser = refTimes.child(`${user.user.uid}`);
                         refUser.child(todayDate).set(0);
 
-                        loginUserSuccess(dispatch, user, navigation);
+                        loginUserSuccess(dispatch, user, defaultAvatarType, navigation);
                     })
                     .catch((err) => loginUserFail(dispatch, err));
             });
@@ -66,11 +69,29 @@ const loginUserFail = (dispatch, err) => {
     });
 };
 
-
-const loginUserSuccess = (dispatch, user, navigation) => {
+const loginUserSuccess = (dispatch, user, avatarType, navigation) => {
     dispatch({
         type: LOGIN_USER_SUCCESS,
-        payload: user
+        payload: { user, avatarType }
     });
-    navigation.navigate('home', { user, avatarType: 'set4' });
+    navigation.navigate('home', { user, avatarType });
+};
+
+export const updateUserAvatar = (currentStyle, navigation) => {
+    const { currentUser } = firebase.auth();
+    return (dispatch) => {
+        const currStyleType = parseInt(currentStyle.replace('set', ''), 10);
+        let newStyleType = Math.floor((Math.random() * 4) + 1);
+        while (newStyleType === currStyleType) {
+            newStyleType = Math.floor((Math.random() * 4) + 1);
+        }
+        const newAvatarStyle = `set${newStyleType}`;
+        const refUserAvatarType = firebase.database().ref(`/users/${currentUser.uid}/avatarType`);
+        refUserAvatarType.set(newAvatarStyle);
+        dispatch({
+            type: UPDATE_USER_AVATAR,
+            payload: newAvatarStyle
+        });
+        navigation.navigate('home', { currentUser, avatarType: newAvatarStyle });
+    };
 };

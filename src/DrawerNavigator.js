@@ -6,6 +6,7 @@ import { Container, Content, Header, Body } from 'native-base';
 
 import HomeView from './screens/HomeView';
 import GraphView from './screens/GraphView';
+import SettingsView from './screens/SettingsView';
 
 const CustomDrawerContentComponent = (props) => {
     console.log(props);
@@ -49,6 +50,10 @@ const routeConfiguration = {
     graph: {
         path: '/graph',
         screen: GraphView
+    },
+    settimgs: {
+        path: '/settimgs',
+        screen: SettingsView
     }
 };
 
