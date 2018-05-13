@@ -13,6 +13,7 @@ import {
 } from 'native-base';
 
 import ScreenHeader from './components/screenHeader';
+import { AdMobConfig } from '../../config';
 
 import { updateUserAvatar } from '../actions';
 
@@ -27,23 +28,19 @@ class SettingsView extends Component {
         super();
         this.state = {
             adIsLoading: false,
-            shouldUpdateAvatar: false
+            shouldUpdateAvatar: false,
+            errorMessage: ''
         };
     }
 
     componentDidMount() {
-        // AdMobInterstitial.setTestDeviceID('EMULATOR');
-        // // ALWAYS USE TEST ID for Admob ads
-        // AdMobInterstitial.setAdUnitID('ca-app-pub-3940256099942544/1033173712');
-        // AdMobInterstitial.addEventListener('interstitialDidLoad', () => console.log('interstitialDidLoad'));
-        // AdMobInterstitial.addEventListener('interstitialDidFailToLoad', () => console.log('interstitialDidFailToLoad'));
-        // AdMobInterstitial.addEventListener('interstitialDidOpen', () => console.log('interstitialDidOpen'));
-        // AdMobInterstitial.addEventListener('interstitialDidClose', () => console.log('interstitialDidClose'));
-        // AdMobInterstitial.addEventListener('interstitialWillLeaveApplication', () => console.log('interstitialWillLeaveApplication'));
+        //const adMobUnitId = AdMobConfig.AdUnitID || 'ca-app-pub-3940256099942544/1712485313';
+        const adMobUnitId = 'ca-app-pub-3940256099942544/1712485313';
 
         AdMobRewarded.setTestDeviceID('EMULATOR');
         // ALWAYS USE TEST ID for Admob ads
-        AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/1712485313');
+        //AdMobRewarded.setAdUnitID('ca-app-pub-3940256099942544/1712485313');
+        AdMobRewarded.setAdUnitID(adMobUnitId);
         AdMobRewarded.addEventListener('rewardedVideoDidRewardUser', () => {
             console.log('rewardedVideoDidRewardUser');
             this.setState({
@@ -119,10 +116,15 @@ class SettingsView extends Component {
         // first - load ads and only then - show
         this.setState({
             adIsLoading: true,
-            shouldUpdateAvatar: false
+            shouldUpdateAvatar: false,
+            errorMessage: ''
         });
         AdMobRewarded.requestAdAsync().then(() => {
             AdMobRewarded.showAd();
+        }).catch((err) => {
+            this.setState({
+                errorMessage: err.message
+            });
         });
     }
 
@@ -134,7 +136,7 @@ class SettingsView extends Component {
     render() {
         const { navigation, email, team, avatarType } = this.props;
         const { openDrawer } = navigation;
-        const { adIsLoading } = this.state;
+        const { errorMessage } = this.state;
         return (
             <Container
                 style = {{
@@ -199,6 +201,9 @@ class SettingsView extends Component {
                         </Text>
                         {this.getUpdateAvatarButton()}
                     </View>
+                    <Text style = {styles.errorTextStyles}>
+                        {errorMessage}
+                    </Text>
                 </Container>
             </Container>
         );
@@ -234,6 +239,12 @@ const styles = {
     mainContainer: {
         height: '100%',
         display: 'flex'
+    },
+    errorTextStyles: {
+        alignSelf: 'center',
+        fontSize: 20,
+        color: 'red',
+        textAlign: 'center'
     }
 };
 
