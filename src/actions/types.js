@@ -13,3 +13,11 @@ export const USER_ADDS_TIME = 'user_adds_time';
 export const FETCH_USER_TIMES = 'fetch_user_times';
 
 export const UPDATE_USER_AVATAR = 'update_user_avatar';
+
+// Terms and Conditions
+export const T_AND_C_ACCEPTED = 'TandC_accepted';
+export const T_AND_C_RETRIVED = 'TandC_retrived';
+export const T_AND_C_DELETED = 'TandC_deleted';
+
+// Constants
+export const DB_IS_T_AND_C = '@db:isTandC';

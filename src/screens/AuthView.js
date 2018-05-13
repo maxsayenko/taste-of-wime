@@ -14,9 +14,16 @@ import {
     Spinner
 } from 'native-base';
 
-import { emailChanged, passwordChanged, loginUser } from '../actions';
+import AuthTermsAndConditionsModal from './components/AuthTermsAndConditionsModal';
+
+import { emailChanged, passwordChanged, loginUser, deleteTandC, fetchTandC, TandCAccepted } from '../actions';
 
 class AuthView extends Component {
+    componentDidMount() {
+        this.props.fetchTandC();
+        //this.props.deleteTandC();
+    }
+
     EmailChanged(text) {
         this.props.emailChanged(text);
     }
@@ -51,6 +58,13 @@ class AuthView extends Component {
     }
 
     render() {
+        const { isTandCAccepted, TandCAccepted } = this.props;
+
+        // Make sure we got a chance to fetch this flag.
+        if (isTandCAccepted !== true && isTandCAccepted !== false) {
+            return (<Spinner color = 'blue' />);
+        }
+
         return (<Container>
             <Container style = {styles.mainContainer}>
                 <Form style = {styles.form}>
@@ -86,6 +100,10 @@ class AuthView extends Component {
                     </View>
                 </Form>
             </Container>
+            <AuthTermsAndConditionsModal
+                isModalVisible = {!(isTandCAccepted)}
+                onAgreePress = {TandCAccepted.bind(this)}
+            />
         </Container>);
     }
 }
@@ -111,9 +129,17 @@ const styles = {
     }
 };
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, user }) => {
     const { email, password, error, loading } = auth;
-    return { email, password, error, loading };
+    const { isTandCAccepted } = user;
+    return { email, password, error, loading, isTandCAccepted };
 };
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(AuthView);
+export default connect(mapStateToProps, {
+    emailChanged,
+    passwordChanged,
+    loginUser,
+    deleteTandC,
+    fetchTandC,
+    TandCAccepted
+})(AuthView);

@@ -1,10 +1,15 @@
 import firebase from 'firebase';
+import { AsyncStorage } from 'react-native';
 import {
     FETCH_USER_TEAMS,
     USER_JOINS_TEAM,
     USER_CREATES_AND_JOINS_TEAM,
     USER_ADDS_TIME,
-    FETCH_USER_TIMES
+    FETCH_USER_TIMES,
+    T_AND_C_ACCEPTED,
+    T_AND_C_RETRIVED,
+    T_AND_C_DELETED,
+    DB_IS_T_AND_C
 } from './types';
 
 export const fetchUserTeams = () => {
@@ -89,5 +94,36 @@ export const fetchUserTimes = () => {
                 });
             });
         //refUserTimes.off('value', onGetUserTimes);
+    };
+};
+
+//    Terms And Conditions
+
+export const TandCAccepted = () => {
+    return (dispatch) => {
+        // TODO: should I use async/wait here?
+        // TODO: Error handling?
+        AsyncStorage.setItem(DB_IS_T_AND_C, 'true', (err) => {
+            dispatch({ type: T_AND_C_ACCEPTED });
+        });
+    };
+};
+
+export const fetchTandC = () => {
+    return (dispatch) => {
+        AsyncStorage.getItem(DB_IS_T_AND_C, (err, result) => {
+            // If we fetched null will return false. To indicate that flag is missing.
+            const isTandCAccepted = JSON.parse(result) === true;
+            dispatch({ type: T_AND_C_RETRIVED, payload: isTandCAccepted });
+        });
+    };
+};
+
+export const deleteTandC = () => {
+    return (dispatch) => {
+        // TODO: Error handling?
+        AsyncStorage.removeItem(DB_IS_T_AND_C, (err) => {
+            dispatch({ type: T_AND_C_DELETED });
+        });
     };
 };
