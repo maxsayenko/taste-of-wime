@@ -92,6 +92,7 @@ export const updateUserAvatar = (currentStyle, navigation) => {
             type: UPDATE_USER_AVATAR,
             payload: newAvatarStyle
         });
-        navigation.navigate('home', { currentUser, avatarType: newAvatarStyle });
+        navigation.navigate('settings', { currentUser, avatarType: newAvatarStyle });
+        navigation.openDrawer();
     };
 };

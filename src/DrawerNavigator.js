@@ -51,8 +51,8 @@ const routeConfiguration = {
         path: '/graph',
         screen: GraphView
     },
-    settimgs: {
-        path: '/settimgs',
+    settings: {
+        path: '/settings',
         screen: SettingsView
     }
 };
