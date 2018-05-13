@@ -3,20 +3,22 @@ import {
     FETCH_USER_TEAMS,
     USER_JOINS_TEAM,
     USER_CREATES_AND_JOINS_TEAM,
-    USER_ADDS_TIME
+    USER_ADDS_TIME,
+    FETCH_USER_TIMES
 } from './types';
 
 export const fetchUserTeams = () => {
     const { currentUser } = firebase.auth();
     return (dispatch) => {
-        firebase.database().ref(`/users/${currentUser.uid}/team`)
+        const refUserTeam = firebase.database().ref(`/users/${currentUser.uid}/team`);
+        const onGetUserTeam = refUserTeam
             .on('value', snapshot => {
-                console.log(snapshot.val());
                 dispatch({
                     type: FETCH_USER_TEAMS,
                     payload: snapshot.val()
                 });
             });
+        //refUserTeam.off('value', onGetUserTeam);
     };
 };
 
@@ -49,7 +51,6 @@ export const userCreatsAndJoinsTeam = (teamName) => {
 };
 
 export const userAddsTime = (selectedDay, sliderHoursValue, sliderMinutesValue, navigation) => {
-    console.log(navigation);
     const { currentUser } = firebase.auth();
     return (dispatch) => {
         const minsAmount = sliderMinutesValue > 0 ? 1 / (60 / sliderMinutesValue) : 0;
@@ -73,5 +74,20 @@ export const userAddsTime = (selectedDay, sliderHoursValue, sliderMinutesValue, 
         });
 
         navigation.navigate('graph');
+    };
+};
+
+export const fetchUserTimes = () => {
+    const { currentUser } = firebase.auth();
+    return (dispatch) => {
+        const refUserTimes = firebase.database().ref(`/times/${currentUser.uid}`);
+        const onGetUserTimes = refUserTimes
+            .on('value', snapshot => {
+                dispatch({
+                    type: FETCH_USER_TIMES,
+                    payload: snapshot.val()
+                });
+            });
+        //refUserTimes.off('value', onGetUserTimes);
     };
 };
