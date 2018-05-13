@@ -34,8 +34,8 @@ class SettingsView extends Component {
     }
 
     componentDidMount() {
-        //const adMobUnitId = AdMobConfig.AdUnitID || 'ca-app-pub-3940256099942544/1712485313';
-        const adMobUnitId = 'ca-app-pub-3940256099942544/1712485313';
+        const adMobUnitId = AdMobConfig.AdUnitID || 'ca-app-pub-3940256099942544/1712485313';
+        //const adMobUnitId = 'ca-app-pub-3940256099942544/1712485313';
 
         AdMobRewarded.setTestDeviceID('EMULATOR');
         // ALWAYS USE TEST ID for Admob ads
@@ -122,9 +122,11 @@ class SettingsView extends Component {
         AdMobRewarded.requestAdAsync().then(() => {
             AdMobRewarded.showAd();
         }).catch((err) => {
+            // Allow change even when ad fails
             this.setState({
-                errorMessage: err.message
-            });
+                errorMessage: err.message,
+                shouldUpdateAvatar: true
+            }, this.avatarVideoClosed);
         });
     }
 
