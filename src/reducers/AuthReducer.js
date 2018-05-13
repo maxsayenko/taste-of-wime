@@ -7,9 +7,18 @@ import {
     UPDATE_USER_AVATAR
 } from '../actions/types';
 
+// const INITIAL_STATE = {
+//     email: 'one@a.comt',
+//     password: '123456',
+//     user: null,
+//     error: '',
+//     loading: false,
+//     avatarType: null
+//  };
+
 const INITIAL_STATE = {
-    email: 'one@a.comt',
-    password: '123456',
+    email: '',
+    password: '',
     user: null,
     error: '',
     loading: false,
