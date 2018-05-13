@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import {
     Container,
@@ -87,10 +88,8 @@ class HomeView extends Component {
         };
 
         return (
-            <Container
-                style = {{
-                    margin: 10
-                }}
+            <View
+                style = {styles.teamView}
             >
                 <H3
                     style = {{
@@ -124,28 +123,24 @@ class HomeView extends Component {
                     hideModal = {hideModal}
                     teamName = {this.state.typedTeamName}
                 />
-            </Container>
+            </View>
         );
     }
 
     withTeamView() {
         const { team } = this.props;
         return (
-            <Container
-                style = {{
-                    margin: 10
-                }}
+            <View
+                style = {styles.teamView}
             >
-                <H3>You are a part of team: <H2>{team}</H2></H3>
-            </Container>
+                <H3>You are a part of team: {team}</H3>
+            </View>
         );
     }
 
     render() {
-        const { navigation, team } = this.props;
-        console.log('currTeam', team);
+        const { navigation } = this.props;
         const { openDrawer } = navigation;
-        //console.log(navigation.state.params.user);
         return (
             <Container>
                 <ScreenHeader
@@ -153,64 +148,12 @@ class HomeView extends Component {
                     title = {SCREEN_NAME}
                 />
                 <Content>
-                    <Container>
+                    <View>
                         {this.getTeamView()}
-                    </Container>
-                    <Button
-                        primary
-                        onPress = {() => {
-                            // let ref = firebase.database().ref('/teams')
-                            //             .on('value', snapshot => {
-                            //                 console.log(snapshot.val());
-                            //             });
-
-                            const ref = firebase.database().ref('/teams')
-                                .push('Hito1')
-                                .then(() => {
-                                    console.log(arguments);
-                                });
-                        }}
-                    >
-                        <Text>
-                            Store
-                        </Text>
-                    </Button>
-                    <Button
-                        primary
-                        onPress = {() => {
-                            // let ref = firebase.database().ref('/teams')
-                            //             .on('value', snapshot => {
-                            //                 console.log(snapshot.val());
-                            //             });
-
-                            const ref = firebase.database().ref('/teams');
-                                ref.child('Hito1').child('username').set(1);
-                                // .set('Hito2')
-                                // .then(() => {
-                                //     console.log(arguments);
-                                // });
-                        }}
-                    >
-                        <Text>
-                            Set
-                        </Text>
-                    </Button>
-                    <Button
-                        primary
-                        onPress = {() => {
-                            const ref = firebase.database().ref('/teams')
-                                        .on('value', snapshot => {
-                                            const teams = snapshot.val();
-                                            for (const key in teams) {
-                                                console.log(teams[key]);
-                                            }
-                                        });
-                        }}
-                    >
-                        <Text>
-                            Fetch
-                        </Text>
-                    </Button>
+                    </View>
+                    <View>
+                        <Text>Some text</Text>
+                    </View>
                 </Content>
             </Container>
         );
@@ -221,6 +164,9 @@ const styles = {
     mainContainer: {
         height: '100%',
         display: 'flex'
+    },
+    teamView: {
+        margin: 10
     }
 };
 
