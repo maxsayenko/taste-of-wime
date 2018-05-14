@@ -89,6 +89,7 @@ class AuthView extends Component {
                     >
                         <Label>Password</Label>
                         <Input
+                            secureTextEntry
                             onChangeText = {this.PasswordChanged.bind(this)}
                             value = {this.props.password}
                         />
