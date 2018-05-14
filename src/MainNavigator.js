@@ -1,7 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 
 import AuthView from './screens/AuthView';
-// import Tabs from './TabsNavigator';
+import DrawerNavigator from './DrawerNavigator';
 
 // Custom transition code
 const MyTransition = (index, position) => {
@@ -39,22 +39,20 @@ const TransitionConfiguration = () => {
 const routeConfiguration = {
     auth: {
         screen: AuthView
+    },
+    home: {
+        screen: DrawerNavigator,
+        navigationOptions: {
+            // to disable swipe back to AuthView
+            gesturesEnabled: false
+        }
     }
-    // tabs: {
-    //     screen: Tabs,
-    //     navigationOptions: {
-    //         // to disable swipe back to AuthView
-    //         gesturesEnabled: false
-    //         // title: 'Tabs',
-    //         // headerLeft: null
-    //     }
-    // }
 };
 
 const stackNavigatorConfiguration = {
     headerMode: 'none',
     initialRouteName: 'auth',
-    mode: 'card',
+    mode: 'modal',
     cardStyle: {
         paddingTop: Expo.Constants.statusBarHeight,
         backgroundColor: 'white'
