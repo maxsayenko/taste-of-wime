@@ -127,7 +127,7 @@ class SettingsView extends Component {
         }).catch((err) => {
             // Allow change even when ad fails
             this.setState({
-                errorMessage: err.message,
+                errorMessage: 'Add failed to load. Your avatar will still be updated',
                 shouldUpdateAvatar: true
             }, this.avatarVideoClosed);
         });
