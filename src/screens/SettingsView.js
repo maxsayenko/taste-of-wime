@@ -219,6 +219,17 @@ class SettingsView extends Component {
                         style = {styles.animationIconStyle}
                         animationStyle = {styles.animationLottieStyle}
                     />
+                    <Text
+                        style = {{
+                            position: 'absolute',
+                            bottom: 0,
+                            opacity: 0.6,
+                            margin: 20,
+                            textAlign: 'center'
+                        }}
+                    >
+                        Robots and Cats avatars lovingly delivered by Robohash.org
+                    </Text>
                 </Container>
             </Container>
         );
