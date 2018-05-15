@@ -69,6 +69,7 @@ class SettingsView extends Component {
 
     getUpdateAvatarButton() {
         const { adIsLoading } = this.state;
+        const { navigation, avatarType, updateUserAvatar } = this.props;
 
         if (adIsLoading === true) {
             return (
@@ -85,16 +86,17 @@ class SettingsView extends Component {
                 </Button>
             );
         }
+        // onPress = {this.showRewardedToUpdateAvatar.bind(this)}
+        //                 <Icon
+                        //     type = 'Entypo'
+                        //     name = 'video'
+                        // />
         return (
             <Button
                 iconLeft
                 style = {styles.updateAvatarButton}
-                onPress = {this.showRewardedToUpdateAvatar.bind(this)}
+                onPress = {updateUserAvatar.bind(this, avatarType, navigation)}
             >
-                <Icon
-                    type = 'Entypo'
-                    name = 'video'
-                />
                 <Text>Update</Text>
             </Button>
         );
@@ -137,6 +139,7 @@ class SettingsView extends Component {
     //     console.log('An error');
     //     return;
     // }
+    // You can update style of your avatar by watching a quick video:
 
     render() {
         const { navigation, email, team, avatarType } = this.props;
@@ -202,7 +205,7 @@ class SettingsView extends Component {
                                 width: '50%'
                             }}
                         >
-                            You can update style of your avatar by watching a quick video:
+                            You can update style of your avatar:
                         </Text>
                         {this.getUpdateAvatarButton()}
                     </View>
